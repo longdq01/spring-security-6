@@ -2,11 +2,15 @@ package com.example.spring_security_6.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.ProviderManager;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.authentication.password.CompromisedPasswordChecker;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
@@ -37,6 +41,15 @@ public class SecurityConfiguration {
 //    @Bean
 //    public UserDetailsManager userDetailsService(DataSource dataSource) {
 //        return new JdbcUserDetailsManager(dataSource);
+//    }
+
+//    @Bean
+//    public AuthenticationManager authenticationManager(PasswordEncoder passwordEncoder,
+//                                                       UserDetailsService userDetailsService){
+//        DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
+//        daoAuthenticationProvider.setPasswordEncoder(passwordEncoder);
+//        daoAuthenticationProvider.setUserDetailsService(userDetailsService);
+//        return new ProviderManager(daoAuthenticationProvider);
 //    }
 
     @Bean
