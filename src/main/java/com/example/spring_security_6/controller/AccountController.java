@@ -1,7 +1,7 @@
 package com.example.spring_security_6.controller;
 
-import com.example.spring_security_6.model.Customer;
-import com.example.spring_security_6.repository.CustomerRepository;
+import com.example.spring_security_6.model.UserEntity;
+import com.example.spring_security_6.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RequestMapping("/account")
 public class AccountController {
-    private final CustomerRepository customerRepository;
+    private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
 //    @PreAuthorize("hasRole('USER')")
@@ -21,15 +21,15 @@ public class AccountController {
         return "my account";
     }
 
-    @PostMapping("/register")
-    public ResponseEntity<String> registerUser(@RequestBody Customer customer){
-        try{
-            String hashPwd = passwordEncoder.encode(customer.getPwd());
-            customer.setPwd(hashPwd);
-            customerRepository.save(customer);
-            return ResponseEntity.ok("Given user details are successfully registered");
-        }catch (Exception e){
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An exception occurred: " + e.getMessage());
-        }
-    }
+//    @PostMapping("/register")
+//    public ResponseEntity<String> registerUser(@RequestBody UserEntity userEntity){
+//        try{
+//            String hashPwd = passwordEncoder.encode(userEntity.getPwd());
+//            userEntity.setPwd(hashPwd);
+//            userRepository.save(userEntity);
+//            return ResponseEntity.ok("Given user details are successfully registered");
+//        }catch (Exception e){
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An exception occurred: " + e.getMessage());
+//        }
+//    }
 }
