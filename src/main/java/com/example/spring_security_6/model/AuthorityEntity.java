@@ -31,4 +31,8 @@ public class AuthorityEntity {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private UserEntity user;
+
+    public AuthorityEntity(String name) {
+        this.name = name;
+    }
 }
