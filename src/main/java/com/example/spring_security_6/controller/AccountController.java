@@ -10,26 +10,10 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/account")
 public class AccountController {
-    private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
 
-//    @PreAuthorize("hasRole('USER')")
-    @GetMapping
+    @GetMapping("/account")
     public String getAccountDetails(){
         return "my account";
     }
-
-//    @PostMapping("/register")
-//    public ResponseEntity<String> registerUser(@RequestBody UserEntity userEntity){
-//        try{
-//            String hashPwd = passwordEncoder.encode(userEntity.getPwd());
-//            userEntity.setPwd(hashPwd);
-//            userRepository.save(userEntity);
-//            return ResponseEntity.ok("Given user details are successfully registered");
-//        }catch (Exception e){
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An exception occurred: " + e.getMessage());
-//        }
-//    }
 }
