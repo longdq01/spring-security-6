@@ -39,7 +39,6 @@ public class SecurityConfiguration {
                                 "/auth/**",
                                 "/account/register"
                         ).permitAll()
-                        .requestMatchers("/**").hasRole("ADMIN")
                         .anyRequest()
                         .authenticated()
         );
