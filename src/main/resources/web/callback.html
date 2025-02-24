@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub OAuth Callback</title>
+</head>
+<body>
+<h2>Processing GitHub OAuth...</h2>
+<p id="response"></p>
+
+<script>
+    function getCodeFromURL() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const code = urlParams.get("code");
+        if (code) {
+            document.getElementById("response").innerText = `Authorization Code: ${code}`;
+            sendCodeToServer(code);
+        } else {
+            document.getElementById("response").innerText = "No authorization code found.";
+        }
+    }
+
+    function sendCodeToServer(code) {
+        fetch("http://localhost:8080/auth/login", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ code: code })
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log("Server Response:", data);
+                document.getElementById("response").innerText = `Server Response: ${JSON.stringify(data)}`;
+            })
+            .catch(error => {
+                console.error("Error:", error);
+            });
+    }
+
+    window.onload = getCodeFromURL;
+</script>
+</body>
+</html>
