@@ -12,4 +12,10 @@ public class Config {
 
     @Value("${http.form-login.enable}")
     private boolean formLoginEnabled;
+
+    @Value("${sso.client-id}")
+    private String ssoClientId;
+
+    @Value("${sso.client-secret}")
+    private String ssoClientSecret;
 }
