@@ -5,8 +5,6 @@ import com.example.spring_security_6.model.*;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -16,7 +14,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -42,9 +39,9 @@ public class AuthController {
     private final Config config;
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResDTO> login(@RequestBody UserLoginDTO request) {
+    public ResponseEntity<LoginResDTO> login(@RequestBody SSOLoginReq request) {
         try {
-            Authentication unAuthentication = UsernamePasswordAuthenticationToken.unauthenticated(request.getEmail(), request.getPassword());
+            Authentication unAuthentication = UsernamePasswordAuthenticationToken.unauthenticated(request.getCode(), request.getRedirectUri());
             Authentication authenticated = authenticationManager.authenticate(unAuthentication);
             log.info("Authentication Successfully: {}", authenticated);
             UserDetailsImpl userDetails = (UserDetailsImpl) authenticated.getPrincipal();

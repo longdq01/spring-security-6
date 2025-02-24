@@ -20,6 +20,8 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 
 import java.util.Collections;
 import java.util.List;
@@ -41,12 +43,12 @@ public class SecurityConfiguration {
                     @Override
                     public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
                         CorsConfiguration config = new CorsConfiguration();
-                        config.setAllowedOrigins(Collections.singletonList("*"));
-                        config.setAllowedMethods(Collections.singletonList("*"));
+                        config.setAllowedOriginPatterns(Collections.singletonList("*"));
+                        config.addAllowedMethod("*");
+                        config.addAllowedHeader("*");
+                        config.addExposedHeader("Authorization,Link,X-Total-Count,UmsAuth");
                         config.setAllowCredentials(true);
-                        config.setAllowedHeaders(Collections.singletonList("*"));
-                        config.setExposedHeaders(List.of("Authorization"));
-                        config.setMaxAge(3600L);
+                        config.setMaxAge(1800L);
                         return config;
                     }
                 }))
