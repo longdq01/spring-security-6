@@ -14,42 +14,12 @@
     document.getElementById("login-btn").addEventListener("click", function() {
         const client_id = "Ov23ligut0O9eYc8sXwc";
         const redirect_uri = "http://localhost:5501/callback.html";
-        const state = "1mrbean3long2001";
+        const state = "ecopFknaRoCOvWxfnOfoJowMYPja3dEi";
 
         const githubAuthURL = `https://github.com/login/oauth/authorize?client_id=${client_id}&redirect_uri=${redirect_uri}&state=${state}`;
 
         window.location.href = githubAuthURL;
     });
-
-    // Lấy code từ URL sau khi GitHub chuyển hướng
-    function getCodeFromURL() {
-        const urlParams = new URLSearchParams(window.location.search);
-        const code = urlParams.get("code");
-        if (code) {
-            document.getElementById("response").innerText = `Authorization Code: ${code}`;
-            sendCodeToServer(code);
-        }
-    }
-
-    function sendCodeToServer(code) {
-        fetch("http://localhost:8080/auth/login", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({ code: code, redirectUri: "http://localhost:8080/auth/login" })
-        })
-            .then(response => response.json())
-            .then(data => {
-                console.log("Server Response:", data);
-                document.getElementById("response").innerText = `Server Response: ${JSON.stringify(data)}`;
-            })
-            .catch(error => {
-                console.error("Error:", error);
-            });
-    }
-
-    window.onload = getCodeFromURL;
 </script>
 </body>
 </html>

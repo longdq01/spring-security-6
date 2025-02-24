@@ -23,30 +23,9 @@ import java.util.stream.Collectors;
 public class AccountController {
 
     private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
 
     @GetMapping("/detail")
     public String getAccountDetails() {
         return "my account";
-    }
-
-    @PostMapping("/register")
-    public ResponseEntity<String> registerAccount(@RequestBody UserCreateDTO request) {
-        UserEntity user = UserEntity.builder()
-                .id(UUID.randomUUID().toString())
-                .username(request.getUsername())
-                .password(passwordEncoder.encode(request.getPassword()))
-                .email(request.getEmail())
-                .build();
-        Set<AuthorityEntity> authorities = request.getAuthorities().stream().map(s ->
-                AuthorityEntity.builder()
-                        .name(s)
-                        .user(user)
-                        .build()
-        ).collect(Collectors.toSet());
-        user.setAuthorities(authorities);
-
-        userRepository.save(user);
-        return ResponseEntity.ok("User registered successfully");
     }
 }

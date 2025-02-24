@@ -10,6 +10,15 @@ public class Config {
     @Value(value = "${jwt.secret-key}")
     private String jwtSecretKey;
 
-    @Value("${http.form-login.enable}")
-    private boolean formLoginEnabled;
+    @Value("${sso.client-id}")
+    private String ssoClientId;
+
+    @Value("${sso.client-secret}")
+    private String ssoClientSecret;
+
+    @Value("${sso.url.access-token}")
+    private String ssoUrlGetAccessToken;
+
+    @Value("${sso.url.user-info}")
+    private String ssoUrlGetUserInfo;
 }

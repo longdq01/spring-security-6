@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class BalanceController {
-    @PreAuthorize("hasAuthority('VIEWBALANCE') or hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('VIEWBALANCE') or hasAnyRole('ADMIN', 'USER')")
     @GetMapping("/balance")
     public String getBalanceDetails(){
         return "my balance";

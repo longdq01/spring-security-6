@@ -27,7 +27,7 @@
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({ code: code })
+            body: JSON.stringify({ code: code, redirectUri: "http://localhost:5501/callback.html" })
         })
             .then(response => response.json())
             .then(data => {
