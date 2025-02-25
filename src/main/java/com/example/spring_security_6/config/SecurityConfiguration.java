@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
@@ -29,7 +30,8 @@ public class SecurityConfiguration {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        CorsConfiguration corsConfiguration = new CorsConfiguration();
+        JwtAuthenticationConverter jwtAuthenticationConverter = new JwtAuthenticationConverter();
+        jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(new KeycloakRoleConverter());
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(corsConfig -> corsConfig.configurationSource(new CorsConfigurationSource() {
@@ -45,7 +47,6 @@ public class SecurityConfiguration {
                         return config;
                     }
                 }))
-                .addFilterBefore(new JWTTokenValidatorFilter(config), BasicAuthenticationFilter.class)
                 .sessionManagement(sessionConfig -> sessionConfig.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(
                         (requests) -> requests
@@ -53,20 +54,15 @@ public class SecurityConfiguration {
                                         "/notice",
                                         "/contact",
                                         "/error",
-                                        "/auth/**",
                                         "/account/register"
                                 ).permitAll()
                                 .anyRequest()
                                 .authenticated()
-                );
+                )
+                .oauth2ResourceServer(oauth2 -> oauth2.jwt(jwt ->
+                        jwt.jwtAuthenticationConverter(jwtAuthenticationConverter)));
         http.formLogin(AbstractHttpConfigurer::disable);
         http.httpBasic(AbstractHttpConfigurer::disable);
         return http.build();
-    }
-
-    @Bean
-    public AuthenticationManager authenticationManager(UserRepository userRepository) {
-        Oauth2AuthenticationProvider oauth2AuthenticationProvider = new Oauth2AuthenticationProvider(userRepository);
-        return new ProviderManager(oauth2AuthenticationProvider);
     }
 }

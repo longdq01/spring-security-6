@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Set;
@@ -25,7 +26,12 @@ public class AccountController {
     private final UserRepository userRepository;
 
     @GetMapping("/detail")
-    public String getAccountDetails() {
-        return "my account";
+    public UserEntity getAccountDetails(@RequestParam String email) {
+        UserEntity user = userRepository.findByEmail(email);
+        if(user == null){
+            return null;
+        }else{
+            return user;
+        }
     }
 }
